@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <form method="post" th:action="@{/pay}"
+
+    th:object="${deal}">
+
+        <input disabled hidden type="text" th:value="${deal.deposit}" name="deposit" th:placeholder="${deal.deposit}"/>
+
+        <button type="submit"> Payment with Paypal </button>
+
+    </form>
+    <button href="/OlineBanking"> Oline Banking </button>
+    <form method="post" th:action="@{/cancel/deal/{id} (id=${deal.dealId})}">
+        <button type="submit"> Cancel</button>
+    </form>
+
+</body>
+</html>

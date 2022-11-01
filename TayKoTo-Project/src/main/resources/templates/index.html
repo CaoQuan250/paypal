@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="layout/frag :: head">
+
+</head>
+
+<body>
+<!-- ***** Preloader Start *****-->
+<div id="js-preloader" class="js-preloader">
+    <div class="preloader-inner">
+        <span class="dot"></span>
+        <div class="dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+</div>
+<!-- ***** Preloader End *****-->
+
+<!-- ***** Header Area Start ***** -->
+<header class="header-area header-sticky">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="main-nav">
+
+                    <!-- ***** Logo Start ***** -->
+                    <a th:href="@{home}" class="logo">Car Dealer<em> Website</em></a>
+                    <!-- ***** Logo End ***** -->
+                    <!-- ***** Menu Start ***** -->
+                    <ul th:switch="${user}" class="nav ml-auto">
+                        <li>
+                            <form th:action="@{/search}" method="post">
+                                <div class="">
+                                    <input type="text" th:value="${keyword}" name="keyword" style="background: transparent; border-radius: 9px; margin-top: 5px; border: 2px solid #ed563b; color: #ed563b" placeholder="Search..">
+                                </div>
+                            </form>
+                        </li>
+
+                        <li><a th:href="@{home}" class="active">Home</a></li>
+                        <li><a th:href="@{cars}">Cars</a></li>
+
+                        <li th:case="null"><a th:href="@{/login-register}" class="">Login/Register</a></li>
+
+                        <div sec:authorize="hasRole('ROLE_ADMIN')">
+                            <li><a th:href="@{management}">Management</a></li>
+                        </div>
+                        <div th:case="*">
+                            <li style="display: inline-block"><a th:href="@{/deal}">Order</a></li>
+                            <li style="display: inline-block"><a th:href="@{/logout}">Logout</a></li>
+                        </div>
+                    </ul>
+
+                    <a class='menu-trigger'>
+                        <span>Menu</span>
+                    </a>
+                    <!-- ***** Menu End ***** -->
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- ***** Header Area End ***** -->
+
+<!-- ***** Main Banner Area Start ***** -->
+<div class="main-banner" id="top">
+    <video autoplay muted loop id="bg-video">
+        <source src="assets/images/video.mp4" type="video/mp4" />
+    </video>
+
+    <div class="video-overlay header-text">
+        <div class="caption">
+            <h6>Get your dream car today</h6>
+            <h2>Best <em>car dealer</em> in town!</h2>
+            <div class="main-button">
+                <a href="contact.html">Contact Us</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ***** Main Banner Area End ***** -->
+
+<!-- ***** Cars Starts ***** -->
+<section class="section" id="trainers">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 offset-lg-3">
+                <div class="section-heading">
+                    <h2>Featured <em>Cars</em></h2>
+                    <img src="assets/images/line-dec.png" alt="">
+                    <p>We has quite an impressive line-up of new cars.
+                        In fact, our cars offer what customers
+                        want most: fuel economy, technology, safety
+                        and outstanding performance..</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div th:each="vehicle : ${list}" class="col-lg-4">
+                <div class="trainer-item">
+                    <div class="image-thumb">
+                        <img th:src="@{${vehicle.img}}" alt="">
+                    </div>
+                    <div class="down-content">
+                            <span>
+                                <h6 style="display: inline-block">$</h6>
+                                <h6 style="display: inline-block" th:text="${vehicle.getPrice()}"></h6>
+                            </span>
+
+                        <div>
+                            <h4 class="card-title" style="display: inline-block " th:text="${vehicle.getVehicleMake()}"></h4>
+                            <h4 class="card-title" style="display: inline-block " th:text="${vehicle.getVehicleModel()}"></h4>
+                        </div>
+
+                        <div>
+                            <p class="card-text" style="display: inline-block" th:text="${vehicle.getVehicleHorsepower()}"></p>
+                            <p class="card-text" style="display: inline-block" >/</p>
+                            <p class="card-text" style="display: inline-block" th:text="${vehicle.getVehicleType()}"></p>
+                            <p class="card-text" style="display: inline-block" >/</p>
+                            <p class="card-text" style="display: inline-block" th:text="${vehicle.getVehicleYear()}"></p>
+                        </div>
+
+                        <ul class="social-icons">
+                            <li><a th:href="@{/car/{id}(id = ${vehicle.vehicleId})}">+ View Car</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="main-button text-center">
+            <a th:href="@{cars}">View Cars</a>
+        </div>
+    </div>
+</section>
+<!-- ***** Cars Ends ***** -->
+
+<section class="section section-bg" id="schedule" style="background-image: url(assets/images/about-fullscreen-1-1920x700.jpg)">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 offset-lg-3">
+                <div class="section-heading dark-bg">
+                    <h2>Read <em>About Us</em></h2>
+                    <img src="assets/images/line-dec.png" alt="">
+                    <p>Founded on faith, Chiauto.com was born on the lot of a small
+                        auto dealership in the heart of the Northern over 20 years ago.</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="cta-content text-center">
+                    <p>Chi auto has been trusted by thousands of used car and new car
+                        dealership lots nationwide. We provide a huge variety of service
+                        department supplies, on-vehicle promotional items, pennants,
+                        streamers, inventory management forms and more!</p>
+
+                    <p>Chi auto is a family company in more ways than one.
+                        The culture is anchored in shared beliefs and ideals,
+                        acting for the common good. As an organization,
+                        Chi auto believes everyone should have the freedom
+                        to move and pursue their dreams, and seeks to
+                        create a culture of belonging for every employee.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ***** Testimonials Item Start ***** -->
+<section class="section" id="features">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 offset-lg-3">
+                <div class="section-heading">
+                    <h2>Read our <em>Testimonials</em></h2>
+                    <img src="assets/images/line-dec.png" alt="waves">
+                    <p>You can have our word for providing you the safest car deal.
+                        We are always on the other side of the phone to support you 24/7
+                        so that you can get the best deal with the best quality</p>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <ul class="features-items">
+                    <li class="feature-item">
+                        <div class="left-icon">
+                            <img src="assets/images/features-first-icon.png" alt="First One">
+                        </div>
+                        <div class="right-content">
+                            <h4>Ding Da Ling</h4>
+                            <p><em>"Everything was very smooth and easy.
+                                Took all of 10 minutes to complete everything.
+                                Also they have the best price for my car. "</em></p>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <div class="left-icon">
+                            <img src="assets/images/features-first-icon.png" alt="second one">
+                        </div>
+                        <div class="right-content">
+                            <h4>Ching Chong</h4>
+                            <p><em>"I am so fortunate to have found them.
+                                Responsive, communication was above and beyond and so pleasant.
+                                True professionals! Highly recommend."</em></p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-lg-6">
+                <ul class="features-items">
+                    <li class="feature-item">
+                        <div class="left-icon">
+                            <img src="assets/images/features-first-icon.png" alt="fourth muscle">
+                        </div>
+                        <div class="right-content">
+                            <h4>Chi Dan</h4>
+                            <p><em>"This was so much easier than I expected.
+                                The tow was free and picked up at my drive way and
+                                I was paid the same day, highly recommended."</em></p>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <div class="left-icon">
+                            <img src="assets/images/features-first-icon.png" alt="training fifth">
+                        </div>
+                        <div class="right-content">
+                            <h4>Ai Do</h4>
+                            <p><em>"Transaction was very easy. Representative call and
+                                text me the instruction and pick up was schedule for next
+                                day. Great and I have referred my friends."</em></p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="main-button text-center">
+            <a href="testimonials.html">Read More</a>
+        </div>
+    </div>
+</section>
+<!-- ***** Testimonials Item End ***** -->
+
+<!-- ***** Call to Action Start ***** -->
+<section class="section section-bg" id="call-to-action" style="background-image: url(assets/images/banner-image-1-1920x500.jpg)">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 offset-lg-1">
+                <div class="cta-content">
+                    <h2>Send us a <em>message</em></h2>
+                    <p>Connect with a Chi auto representative, who’s available to answer your
+                        questions about vehicle features, service and maintenance,
+                        warranty plans and more. We’re here to help.</p>
+                    <div class="main-button">
+                        <a href="contact.html">Contact us</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ***** Call to Action End ***** -->
+
+<!-- ***** Footer Start ***** -->
+<footer th:replace="layout/frag :: footer"></footer>
+
+<div th:replace="layout/frag :: script"></div>
+</body>
+</html>

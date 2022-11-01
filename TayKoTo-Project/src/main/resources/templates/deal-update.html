@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="layout/frag :: head">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+ <div class="modal-dialog modal-lg">
+     <form th:action="@{/deal/update/{id}(id = ${deal.dealId})}"
+            th:object="${deal}"
+            method="post">
+         <div class="modal-content">
+             <div class="modal-body">
+                 <div class="form-group">
+                     <!--                 <label data-error="wrong" data-success="right" for="vehicleMake">Brand</label>-->
+                     <!--                 <input th:field="*{vehicle.vehicleMake}" type="text" id="vehicleMake" class="form-control validate">-->
+                     <!--                <span class="alert alert-warning" th:if="${#fields.hasErrors('vehicleMake')}" th:errors="*{vehicleMake}"></span>-->
+                     <label for="vehicleId"></label>
+                     <input hidden th:field="*{vehicle}" id="vehicleId" type="text">
+                     <label for="customerId"></label>
+                     <input hidden th:field="*{customerId}" id="customerId" type="text">
+                 </div>
+
+                 <div class="form-group">
+                     <label for="bodyType"></label>
+                     <select th:field="*{status}" class="form-control" id="bodyType">
+                         <option value="0" >Waiting</option>  <!--0 = waiting -->
+                         <option value="1" >Approve</option>  <!--1 = Order -->
+                         <option value="2" >Complete</option>  <!--2 = Complete -->
+                     </select>
+                 </div>
+
+                 <div class="form-group">
+                     <label data-error="wrong" data-success="right" for="price">Price</label>
+                     <input th:field="*{price}" type="text" id="price" class="form-control validate">
+                 </div>
+
+                 <div class="form-group">
+                     <label data-error="wrong" data-success="right" for="price">Deposit</label>
+                     <input th:field="*{deposit}" type="text">
+                 </div>
+
+                 <div class="form-group">
+                     <label data-error="wrong" data-success="right" for="price">Order Date</label>
+                     <input th:field="*{orderDate}" type="date">
+                 </div>
+
+                 <div class="form-group">
+                     <label data-error="wrong" data-success="right" for="price">Arrive Date</label>
+                     <input th:field="*{arriveDate}" type="date">
+                 </div>
+
+                 <a th:href="@{/management}" class="btn btn-secondary">Cancel</a>
+                 <input type="submit" value="Save" class="btn btn-primary">
+             </div>
+         </div>
+
+     </form>
+ </div>
+
+ <div th:replace="layout/frag :: script"></div>
+</body>
+</html>

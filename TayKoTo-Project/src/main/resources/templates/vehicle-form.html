@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="layout/frag :: head">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<div>
+    <form class="modal-dialog modal-lg"
+          th:action="@{/add-vehicle}"
+          th:method="POST"
+          th:object="${vehicle}"
+          enctype="multipart/form-data">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" >Vehicle</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group">
+                    <label data-error="wrong" data-success="right" for="vehicleMake">Brand</label>
+                    <input th:field="*{vehicleMake}" type="text" id="vehicleMake" class="form-control validate">
+                    <!--                <span class="alert alert-warning" th:if="${#fields.hasErrors('vehicleMake')}" th:errors="*{vehicleMake}"></span>-->
+
+                </div>
+
+                <div class="form-group">
+                    <label data-error="wrong" data-success="right" for="vehicleModel">Model</label>
+                    <input th:field="*{vehicleModel}" type="text" id="vehicleModel" class="form-control validate">
+                    <!--                <span class="alert alert-warning" th:if="${#fields.hasErrors('vehicleModel')}" th:errors="*{vehicleModel}"></span>-->
+                </div>
+
+                <div class="form-group">
+                    <label for="bodyType"></label>
+                    <select th:field="*{bodyStyle}" class="form-control" id="bodyType">
+                        <option value="SUV" >SUV</option>
+                        <option value="Sport" >Sport</option>
+                        <option value="Sedan" >Sedan</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <div class="">
+                        <label class="checkbox-inline"> <input type="checkbox" th:field="*{vehicleType}" value="Electro">Electro
+                        </label>
+                        <label class="checkbox-inline"> <input type="checkbox" th:field="*{vehicleType}" value="Petrol">Petrol
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label data-error="wrong" data-success="right" for="price">Price</label>
+                    <input th:field="*{price}" type="text" id="price" class="form-control validate">
+                </div>
+
+                <div class="form-group">
+                    <label data-error="wrong" data-success="right" for="vehicleHP">HP</label>
+                    <input th:field="*{vehicleHorsepower}" type="text" id="vehicleHP" class="form-control validate">
+                </div>
+
+                <div class="form-group">
+                    <label data-error="wrong" data-success="right" for="cc">CC</label>
+                    <input th:field="*{vehicleEngine}" type="text" id="cc" class="form-control validate">
+                </div>
+
+                <div class="form-group">
+                    <label data-error="wrong" data-success="right" for="vehicleYear">Year</label>
+                    <input th:field="*{vehicleYear}" type="text" id="vehicleYear" class="form-control validate">
+                </div>
+
+                <div class="form-group">
+                    <label data-error="wrong" data-success="right" for="status">Status</label>
+                    <input th:field="*{status}" type="text" id="status" class="form-control validate">
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleFormControlFile1">Image</label>
+                    <input type="file" name="img"
+                           class="form-control-file"
+                           id="exampleFormControlFile1">
+                </div>
+
+                <a th:href="@{/management}" class="btn btn-secondary">Cancel</a>
+                <input type="submit" value="Save" class="btn btn-primary">
+            </div>
+        </div>
+    </form>
+</div>
+
+<div th:replace="layout/frag :: script"></div>
+</body>
+</html>

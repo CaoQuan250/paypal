@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="layout/frag :: head">
+
+</head>
+
+<body>
+<!-- ***** Preloader Start *****-->
+<div id="js-preloader" class="js-preloader">
+    <div class="preloader-inner">
+        <span class="dot"></span>
+        <div class="dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+</div>
+
+<!-- ***** Header Area Start ***** -->
+<header class="header-area header-sticky">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="main-nav">
+                    <a th:href="@{/home}" class="logo">Car Dealer<em> Website</em></a>
+                    <!-- ***** Logo End ***** -->
+                    <!-- ***** Menu Start ***** -->
+                    <ul th:switch="${user}" class="nav ml-auto">
+
+                        <li>
+                            <form th:action="@{/search}" method="post">
+                                <div class="">
+                                    <input type="text" th:value="${keyword}" name="keyword" style="background: transparent; border-radius: 9px; margin-top: 5px; border: 2px solid #ed563b; color: #ed563b" placeholder="Search..">
+                                </div>
+                            </form>
+                        </li>
+
+                        <li><a th:href="@{/home}">Home</a></li>
+                        <li><a th:href="@{/cars}" class="active">Cars</a></li>
+
+                        <li th:case="null">
+                            <a th:href="@{/login-register}">Login/Register</a></li>
+
+                        <div sec:authorize="hasRole('ROLE_ADMIN')">
+                            <li><a th:href="@{/management}">Management</a></li>
+                        </div>
+
+                        <div th:case="*">
+                            <li style="display: inline-block"><a th:href="@{/deal}">Order</a></li>
+                            <li style="display: inline-block"><a th:href="@{/logout}">Logout</a></li>
+                        </div>
+                    </ul>
+                    <a class='menu-trigger'>
+                        <span>Menu</span>
+                    </a>
+                    <!-- ***** Menu End ***** -->
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- ***** Header Area End ***** -->
+
+<!-- ***** Call to Action Start ***** -->
+<section class="section section-bg" id="call-to-action"
+         th:style="'background:url(' + @{/assets/images/banner-image-1-1920x500.jpg} + ')'">
+</section>
+<!-- ***** Call to Action End ***** -->
+
+<!-- ***** Cars Starts ***** -->
+<section class="section" id="trainers">
+    <div class="container">
+        <div class="row">
+            <div th:each="vehicle : ${search}" class="col-lg-4">
+                <div class="trainer-item">
+                    <div class="image-thumb">
+                        <img th:src="@{${vehicle.img}}" alt="">
+                    </div>
+                    <div class="down-content">
+                            <span>
+                                <h6 style="display: inline-block">$</h6>
+                                <h6 style="display: inline-block" th:text="${vehicle.getPrice()}"></h6>
+                            </span>
+
+                        <div>
+                            <h4 class="card-title" style="display: inline-block " th:text="${vehicle.getVehicleMake()}"></h4>
+                            <h4 class="card-title" style="display: inline-block " th:text="${vehicle.getVehicleModel()}"></h4>
+                        </div>
+
+                        <div>
+                            <p class="card-text" style="display: inline-block" th:text="${vehicle.getVehicleHorsepower()}"></p>
+                            <p class="card-text" style="display: inline-block" >/</p>
+                            <p class="card-text" style="display: inline-block" th:text="${vehicle.getVehicleType()}"></p>
+                            <p class="card-text" style="display: inline-block" >/</p>
+                            <p class="card-text" style="display: inline-block" th:text="${vehicle.getVehicleYear()}"></p>
+                        </div>
+
+                        <ul class="social-icons">
+                            <li><a th:href="@{/car/{id}(id = ${vehicle.vehicleId})}">+ View Car</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ***** Cars Ends ***** -->
+
+<footer th:replace="layout/frag :: footer"></footer>
+
+<div th:replace="layout/frag :: script"></div>
+</body>
+</html>

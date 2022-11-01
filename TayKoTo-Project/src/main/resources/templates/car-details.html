@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="layout/frag :: head">
+    <meta charset="UTF-8">
+    <title>Cars Dealer</title>
+</head>
+<body>
+<!-- ***** Preloader Start ***** -->
+<div th:replace="layout/frag :: preloader"></div>
+<!-- ***** Preloader End ***** -->
+
+<!-- ***** Header Area Start ***** -->
+<header class="header-area header-sticky">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="main-nav">
+                    <a th:href="@{/home}" class="logo">Car Dealer<em> Website</em></a>
+                    <!-- ***** Logo End ***** -->
+                    <!-- ***** Menu Start ***** -->
+                    <ul th:switch="${user}" class="nav ml-auto">
+
+                        <li>
+                            <form th:action="@{/search}" method="post">
+                                <div class="">
+                                    <input type="text" th:value="${keyword}" name="keyword" style="background: transparent; border-radius: 9px; margin-top: 5px; border: 2px solid #ed563b; color: #ed563b" placeholder="Search..">
+                                </div>
+                            </form>
+                        </li>
+
+                        <li><a th:href="@{/home}">Home</a></li>
+                        <li><a th:href="@{/cars}" class="active">Cars</a></li>
+
+                        <li th:case="null">
+                            <a th:href="@{/login-register}">Login/Register</a></li>
+
+                        <div sec:authorize="hasRole('ROLE_ADMIN')">
+                            <li><a th:href="@{/management}">Management</a></li>
+                        </div>
+
+                        <div th:case="*">
+                            <li style="display: inline-block"><a th:href="@{/deal}">Order</a></li>
+                            <li style="display: inline-block"><a th:href="@{/logout}">Logout</a></li>
+                        </div>
+                    </ul>
+                    <a class='menu-trigger'>
+                        <span>Menu</span>
+                    </a>
+                    <!-- ***** Menu End ***** -->
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- ***** Header Area End ***** -->
+
+<!-- ***** Call to Action Start ***** -->
+<!-- ***** Call to Action Start ***** -->
+<section class="section section-bg" id="call-to-action"
+         th:style="'background:url(' + @{/assets/images/banner-image-1-1920x500.jpg} + ')'">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 offset-lg-1">
+                <div class="cta-content">
+                    <br>
+                    <br>
+<!--                    <h2 th:text="${vehicle.vehicleModel}"> <em th:text="${vehicle.getVehicleMake()}">Cars</em></h2>-->
+                    <p></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ***** Call to Action End ***** -->
+
+<!-- ***** Fleet Starts ***** -->
+<section class="section" id="trainers">
+    <div class="container">
+        <br>
+        <br>
+
+        <br>
+        <br>
+
+        <div class="row" id="tabs">
+            <div class="col-lg-4">
+                <ul>
+                    <li><a href="#tabs-0"><i class="fa fa-picture-o"></i> Gallery</a></li>
+                    <li><a href='#tabs-1'><i class="fa fa-cog"></i> Vehicle Specs</a></li>
+                    <li><a href='#tabs-2'><i class="fa fa-info-circle"></i> Vehicle Description</a></li>
+                    <li><a href='#tabs-3'><i class="fa fa-plus-circle"></i> Vehicle Extras</a></li>
+                    <li><a href='#tabs-4'><i class="fa fa-phone"></i> Contact Details</a></li>
+                    <li><a href='#tabs-5'><i class="fa fa-car"></i> Order</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-8">
+                <section class='tabs-content' style="width: 100%;">
+                    <article id="tabs-0">
+                        <h4>Gallery</h4>
+                        <div th:each="picture: ${gallery}">
+                            <img th:src="@{${picture.img}}" alt="">
+                        </div>
+                    </article>
+                    <article id='tabs-1'>
+                        <h4>Vehicle Specs</h4>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>Brand</label>
+
+                                <p th:text="${info.vehicleMake}"></p>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>Model</label>
+
+                                <p th:text="${info.vehicleModel}"></p>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>Mileage</label>
+
+                                <p>5000 km</p>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>Fuel</label>
+
+                                <p th:text="${info.vehicleType}"></p>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>Engine size</label>
+
+                                <p th:text="${info.vehicleEngine}"></p>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>Power</label>
+
+                                <p th:text="${info.vehicleHorsepower}"></p>
+                            </div>
+
+
+                            <div class="col-sm-6">
+                                <label>Gearbox</label>
+
+                                <p>Manual</p>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>Number of seats</label>
+
+                                <p th:text="${info.seat}"></p>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>Doors</label>
+
+                                <p>2/3</p>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>Color</label>
+
+                                <p th:text="${info.color}"></p>
+                            </div>
+                        </div>
+                    </article>
+                    <article id='tabs-2'>
+                        <h4>Vehicle Description</h4>
+
+
+                        <p> - Colour coded bumpers
+                            <br> - Tinted glass
+                            <br> - Immobiliser
+                            <br> - Central locking
+                            <br> - remote
+                            <br> - Passenger airbag
+                            <br> - Electric windows
+                            <br> - Rear head rests
+                            <br> - Radio
+                            <br> - CD player
+                            <br> - Ideal first car
+                            <br> - Warranty
+                            <br> - High level brake light
+                            <br></p>
+
+                    </article>
+                    <article id='tabs-3'>
+                        <h4>Vehicle Extras</h4>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <p>ABS</p>
+                            </div>
+                            <div class="col-sm-6">
+                                <p>Leather seats</p>
+                            </div>
+                            <div class="col-sm-6">
+                                <p>Power Assisted Steering</p>
+                            </div>
+                            <div class="col-sm-6">
+                                <p>Electric heated seats</p>
+                            </div>
+                            <div class="col-sm-6">
+                                <p>New HU and AU</p>
+                            </div>
+                            <div class="col-sm-6">
+                                <p>Xenon headlights</p>
+                            </div>
+                        </div>
+                    </article>
+                    <article id='tabs-4'>
+                        <h4>Contact Details</h4>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>Name</label>
+
+                                <p>Chi Đần</p>
+                            </div>
+                            <div class="col-sm-6">
+                                <label>Phone</label>
+
+                                <p>123-456-789 </p>
+                            </div>
+                            <div class="col-sm-6">
+                                <label>Mobile phone</label>
+                                <p>456789123 </p>
+                            </div>
+                            <div class="col-sm-6">
+                                <label>Email</label>
+                                <p><a href="#">CarDealer@gmail.com</a></p>
+                            </div>
+                        </div>
+                    </article>
+                    <article id="tabs-5">
+                        <form style="width: 96%;"
+                              th:action="@{/order/{id}(id = ${info.vehicleId})}"
+                              th:object="${customer}"
+                              th:method="POST">
+                            <div class="modal-dialog modal-lg" roles="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Order</h5>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="contact-form">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <fieldset>
+                                                        <input th:field="*{customerName}"  type="text" name="customerName"   class="form-control" placeholder="Name..." required="">
+                                                        <input th:field="*{customerEmail}" type="email" name="customerEmail" class="form-control" placeholder="Email..." required="">
+                                                    </fieldset>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <fieldset>
+                                                        <input th:field="*{customerPhone}"   type="text" class="form-control" name="customerPhone" placeholder="Phone number..." required="">
+                                                        <input th:field="*{customerAddress}" type="text" class="form-control" name="customerAddress" placeholder="Address..." required="">
+                                                    </fieldset>
+                                                </div>
+                                            </div>
+                                            <div th:object="${deal}" class="row">
+                                                <div class="col-md-6">
+                                                    <fieldset>
+                                                        <label for="price">Price:</label>
+                                                        <input disabled th:field="*{price}" th:value="${info.price}" th:placeholder="${info.price}" name="price" type="text" id="price" class="form-control" required="">
+                                                    </fieldset>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <fieldset>
+                                                        <label for="deposit">Deposit:</label>
+                                                        <select th:field="*{deposit}" name="deposit" id="deposit">
+                                                            <option th:text=" ${info.price} * 30/100" th:value="${info.price} * 30/100">30%</option>
+                                                            <option th:text=" ${info.price} * 50/100" th:value="${info.price} * 50/100">50%</option>
+                                                            <option th:text=" ${info.price} * 70/100" th:value="${info.price} * 70/100">70%</option>
+                                                        </select>
+                                                    </fieldset>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input th:href="@{deal/{id}(id = ${deal.dealId})}" type="submit" value="Payment" class="btn btn-primary"></input>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </article>
+                </section>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ***** Fleet Ends ***** -->
+
+<footer th:replace="layout/frag :: footer"></footer>
+
+<div th:replace="layout/frag :: script"></div>
+
+</body>
+
+</html>

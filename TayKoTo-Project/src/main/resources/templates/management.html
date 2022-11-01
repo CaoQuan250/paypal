@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="layout/frag :: head">
+  <title>Management</title>
+</head>
+<body>
+<div th:replace="layout/frag ::preloader"></div>
+
+<!-- ***** Header Area Start ***** -->
+<header class="header-area header-sticky">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="main-nav">
+                    <a th:href="@{home}" class="logo">Car Dealer<em> Website</em></a>
+                    <!-- ***** Logo End ***** -->
+                    <!-- ***** Menu Start ***** -->
+                    <ul th:switch="${user}" class="nav ml-auto">
+
+                        <li>
+                            <form th:action="@{/search}" method="post">
+                                <div class="">
+                                    <input type="text" th:value="${keyword}" name="keyword" style="background: transparent; border-radius: 9px; margin-top: 5px; border: 2px solid #ed563b; color: #ed563b" placeholder="Search..">
+                                </div>
+                            </form>
+                        </li>
+
+                        <li><a th:href="@{home}">Home</a></li>
+                        <li><a th:href="@{cars}">Cars</a></li>
+
+                        <li th:case="null"><a th:href="@{/login-register}" class="">Login/Register</a></li>
+
+                        <div sec:authorize="hasRole('ROLE_ADMIN')">
+                            <li><a th:href="@{management}" class="active">Management</a></li>
+                        </div>
+
+                        <div th:case="*">
+                            <li style="display: inline-block"><a th:href="@{/deal}">Order</a></li>
+                            <li style="display: inline-block"><a th:href="@{/logout}">Logout</a></li>
+                        </div>
+                    </ul>
+                    <a class='menu-trigger'>
+                        <span>Menu</span>
+                    </a>
+                    <!-- ***** Menu End ***** -->
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- ***** Header Area End ***** -->
+
+<!-- ***** Call to Action Start ***** -->
+<section class="section section-bg" id="call-to-action" style="background-image: url(assets/images/banner-image-1-1920x500.jpg)">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 offset-lg-1">
+                <div class="cta-content">
+                    <br>
+                    <br>
+                    <h2>Admin <em>Management</em></h2>
+                    <p></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ***** Call to Action End ***** -->
+
+<section style="" class="section" id="">
+    <div class="container-fluid">
+        <div class="row" style="height: 100%;" id="tabs">
+            <div class="" style="width: 15%; padding: 20px; background-color: #3b3b3b">
+                <ul>
+                    <li class=""><a style="" href='#tabs-1'><i class="fa fa-car"></i> Vehicles</a>  </li>
+                    <li class=""><a style="" href='#tabs-2'><i class="fa fa-folder"></i> Orders</a> </li>
+                    <li class=""><a style="" href='#tabs-3'><i class="fa fa-users"></i> Customer</a></li>
+                    <li class=""><a style="" href='#tabs-4'><i class="fa fa-user"></i> Users</a>    </li>
+                </ul>
+            </div>
+            <div class="" style="width: 85%;  background-color: #1b1e21" >
+                <section class='' style="width: 100%;">
+                    <article id="tabs-1">
+                        <div style="">
+                            <table class="table table-bordered table-dark">
+                                <thead style="border: 1px solid lightgrey">
+                                <tr>
+                                    <th style="" scope="col"></th>
+                                    <th style="text-align: center;" scope="col">Id</th>
+                                    <th style="text-align: center;" scope="col">Make</th>
+                                    <th style="text-align: center;" scope="col">Model</th>
+                                    <th style="text-align: center;" scope="col">Type</th>
+                                    <th style="text-align: center;" scope="col">Year</th>
+                                    <th style="text-align: center;" scope="col">Engine</th>
+                                    <th style="text-align: center;" scope="col">HP</th>
+                                    <th style="text-align: center;" scope="col">Body Style</th>
+                                    <th style="text-align: center;" scope="col">Status</th>
+                                    <th style="text-align: center;" scope="col">Price</th>
+                                    <th style="text-align: center;" scope="col">
+                                        <a th:href="@{add-vehicle}" class="btn btn-info float-right">
+                                            <i class="fa fa-plus"></i> Adding Vehicle</a>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="vehicle: ${listVehicle}">
+                                    <td style="text-align: center">
+                                        <img style="width: 270px; height: 180px" th:src="@{${vehicle.getImg()}}" alt="">
+                                    </td>
+                                    <td th:text="${vehicle.getVehicleId()}        " style="text-align: center"></td>
+                                    <td th:text="${vehicle.getVehicleMake()}      " style="text-align: center" ></td>
+                                    <td th:text="${vehicle.getVehicleModel()}     " style="text-align: center" ></td>
+                                    <td th:text="${vehicle.getVehicleType()}      " style="text-align: center" ></td>
+                                    <td th:text="${vehicle.getVehicleYear()}      " style="text-align: center" ></td>
+                                    <td th:text="${vehicle.getVehicleEngine()}    " style="text-align: center" ></td>
+                                    <td th:text="${vehicle.getVehicleHorsepower()}" style="text-align: center" ></td>
+                                    <td th:text="${vehicle.getBodyStyle()}        " style="text-align: center" ></td>
+                                    <td th:text="${vehicle.getStatus()}           " style="text-align: center" ></td>
+                                    <td th:text="${vehicle.getPrice()}            " style="text-align: center" ></td>
+                                    <td style="text-align: center">
+                                        <a class="btn btn-info" th:href="@{update/{id}(id = ${vehicle.vehicleId})}"> Edit</a>
+                                        <a class="btn btn-danger" th:href="@{delete-vehicle/{id}(id = ${vehicle.vehicleId})}"> Delete</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </article>
+                    <article id="tabs-2">
+                        <div style="">
+                            <table class="table table-bordered table-dark">
+                                <thead style="border: 1px solid lightgrey">
+                                <tr>
+                                    <th style="" scope="col"></th>
+                                    <th style="text-align: center;" scope="col">Deal Id</th>
+                                    <th style="text-align: center;" scope="col">Customer Id</th>
+                                    <th style="text-align: center;" scope="col">Brand</th>
+                                    <th style="text-align: center;" scope="col">Model</th>
+                                    <th style="text-align: center;" scope="col">Status</th>
+                                    <th style="text-align: center;" scope="col">Price</th>
+                                    <th style="text-align: center;" scope="col">Deposit</th>
+                                    <th style="text-align: center;" scope="col">Order Date</th>
+                                    <th style="text-align: center;" scope="col">Deposit Date</th>
+                                    <th style="text-align: center;" scope="col">Arrive Date</th>
+                                    <th style="text-align: center;" scope="col">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="deal: ${listDeal}">
+                                    <td style="text-align: center">
+                                        <img style="width: 270px; height: 180px" th:src="@{${deal.vehicle.img}}" alt="">
+                                    </td>
+                                    <td th:text="${deal.dealId}" style="text-align: center"></td>
+                                    <td th:text="${deal.customerId}" style="text-align: center" ></td>
+                                    <td th:text="${deal.vehicle.vehicleMake}" style="text-align: center" ></td>
+                                    <td th:text="${deal.vehicle.vehicleModel}" style="text-align: center" ></td>
+                                    <td th:text="${deal.status}" style="text-align: center" ></td>
+                                    <td th:text="${deal.price}" style="text-align: center" ></td>
+                                    <td th:text="${deal.deposit}" style="text-align: center" ></td>
+                                    <td th:text="${deal.orderDate}" style="text-align: center" ></td>
+                                    <td th:text="${deal.depositDate}" style="text-align: center" ></td>
+                                    <td th:text="${deal.arriveDate}" style="text-align: center" ></td>
+                                    <td style="text-align: center">
+                                        <a class="btn btn-info" th:href="@{/deal/update/{id}(id = ${deal.dealId})}"> Approve</a>
+                                        <a class="btn btn-danger" th:href="@{/deal/delete/{id}(id = ${deal.dealId})}"> Delete</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </article>
+                    <article id="tabs-3">
+                        <div style="">
+                            <table class="table table-bordered table-dark">
+                                <thead style="border: 1px solid lightgrey">
+                                <tr>
+                                    <th style="text-align: center;" scope="col">Id</th>
+                                    <th style="text-align: center;" scope="col">Name</th>
+                                    <th style="text-align: center;" scope="col">Address</th>
+                                    <th style="text-align: center;" scope="col">Phone</th>
+                                    <th style="text-align: center;" scope="col">Email</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="customer: ${listCustomer}">
+                                    <td th:text="${customer.customerId}     " style="text-align: center"></td>
+                                    <td th:text="${customer.customerName}   " style="text-align: center" ></td>
+                                    <td th:text="${customer.customerAddress}" style="text-align: center" ></td>
+                                    <td th:text="${customer.customerPhone}  " style="text-align: center" ></td>
+                                    <td th:text="${customer.customerEmail}  " style="text-align: center" ></td>
+                                    <td style="text-align: center">
+                                        <a class="btn btn-info" > Edit</a>
+                                        <a class="btn btn-danger" > Delete</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </article>
+                    <article id='tabs-4'>
+                        <div style="">
+                            <table class="table table-bordered table-dark">
+                                <thead style="border: 1px solid lightgrey">
+                                <tr>
+                                    <th style="text-align: center;" scope="col">Id</th>
+                                    <th style="text-align: center;" scope="col">Username</th>
+                                    <th style="text-align: center;" scope="col">Email</th>
+                                    <th style="text-align: center;" scope="col">Customer Id</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="user: ${listUser}">
+                                    <td th:text="${user.userId}    " style="text-align: center"></td>
+                                    <td th:text="${user.username}  " style="text-align: center" ></td>
+                                    <td th:text="${user.email}     " style="text-align: center" ></td>
+                                    <td th:text="${user.customerId}" style="text-align: center" ></td>
+                                    <td style="text-align: center">
+                                        <a class="btn btn-info" th:href="@{/user/reset-password/{id}(id = ${user.userId})}"> Reset password</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </article>
+                </section>
+            </div>
+        </div>
+    </div>
+</section>
+<div th:replace="layout/frag ::footer"></div>
+<div th:replace="layout/frag :: script"></div>
+</body>
+</html>

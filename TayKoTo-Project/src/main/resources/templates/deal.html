@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="layout/frag :: head">
+
+</head>
+
+<body>
+<!-- ***** Preloader Start *****-->
+<div id="js-preloader" class="js-preloader">
+    <div class="preloader-inner">
+        <span class="dot"></span>
+        <div class="dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+</div>
+
+<!-- ***** Header Area Start ***** -->
+<header class="header-area header-sticky">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="main-nav">
+                    <a th:href="@{/home}" class="logo">Car Dealer<em> Website</em></a>
+                    <!-- ***** Logo End ***** -->
+                    <!-- ***** Menu Start ***** -->
+                    <ul th:switch="${user}" class="nav ml-auto">
+
+                        <li>
+                            <form th:action="@{/search}" method="post">
+                                <div class="">
+                                    <input type="text" th:value="${keyword}" name="keyword" style="background: transparent; border-radius: 9px; margin-top: 5px; border: 2px solid #ed563b; color: #ed563b" placeholder="Search..">
+                                </div>
+                            </form>
+                        </li>
+
+                        <li><a th:href="@{/home}">Home</a></li>
+                        <li><a th:href="@{/cars}">Cars</a></li>
+
+                        <li th:case="null">
+                            <a th:href="@{/login-register}">Login/Register</a></li>
+
+                        <div sec:authorize="hasRole('ROLE_ADMIN')">
+                            <li><a th:href="@{/management}">Management</a></li>
+                        </div>
+
+                        <div th:case="*">
+                            <li style="display: inline-block"><a class="active" th:href="@{/deal}">Order</a></li>
+                            <li style="display: inline-block"><a th:href="@{/logout}">Logout</a></li>
+                        </div>
+                    </ul>
+                    <a class='menu-trigger'>
+                        <span>Menu</span>
+                    </a>
+                    <!-- ***** Menu End ***** -->
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- ***** Header Area End ***** -->
+
+<!-- ***** Call to Action Start ***** -->
+<section class="section section-bg" id="call-to-action"
+         th:style="'background:url(' + @{/assets/images/banner-image-1-1920x500.jpg} + ')'">
+</section>
+
+<div class="form-container">
+    <table class="table table-bordered table-dark">
+        <thead style="border: 1px solid lightgrey">
+        <tr>
+            <th style="text-align: center;" scope="col"></th>
+            <th style="text-align: center;" scope="col">Brand</th>
+            <th style="text-align: center;" scope="col">Model</th>
+            <th style="text-align: center;" scope="col">Price</th>
+            <th style="text-align: center;" scope="col">Deposit</th>
+            <th style="text-align: center;" scope="col">Order Date</th>
+            <th style="text-align: center;" scope="col">Arrive Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="deal: ${deal}">
+            <td style="text-align: center">
+                <img style="width: 270px; height: 180px" th:src="@{${deal.vehicle.img}}" alt="">
+            </td>
+            <td th:text="${deal.vehicle.vehicleMake}" style="text-align: center" ></td>
+            <td th:text="${deal.vehicle.vehicleModel}" style="text-align: center" ></td>
+            <td th:text="${deal.price}" style="text-align: center" ></td>
+            <td th:text="${deal.deposit}" style="text-align: center" ></td>
+            <td th:text="${deal.orderDate}" style="text-align: center" ></td>
+            <td th:text="${deal.arriveDate}" style="text-align: center" ></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<footer th:replace="layout/frag :: footer"></footer>
+
+<div th:replace="layout/frag :: script"></div>
+</body>
+</html>
